@@ -28,6 +28,10 @@ SECRET_KEY = 'django-insecure-g84l!u0^bkvv@=$fz_z274iv^&fo7@q&z(*hvw27zxebf&#6ym
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 
+# CSRF VALIDATION
+CSRF_TRUSTED_ORIGINS = [
+    "https://shortify-hhe2.onrender.com",
+]
 
 # Application definition
 
