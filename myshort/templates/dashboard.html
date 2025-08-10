@@ -1,0 +1,154 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>User Dashboard | Shortify</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" href="data:,">
+</head>
+<body >
+
+<!-- Navbar -->
+
+    <nav class="navbar sticky-top bg-body-tertiary">
+  <div class="container-fluid d-flex justify-content-between align-items-center">
+
+    <!-- Left: Brand Title -->
+    <a class="navbar-brand ms-3" href="{% url 'home' %}" style="font-family: Arial, sans-serif; font-size: 1.6rem; text-decoration: none; color: #000;">
+      <strong>SHORTIFY</strong>
+    </a>
+
+    <!-- Right: GitHub + Logout -->
+    <div class="d-flex align-items-center gap-3 me-3">
+      <a  class="text-dark" href="https://github.com/codefromsun/Quick-Translate/tree/master" target="_blank" aria-label="GitHub Repository">
+        <i class="bi bi-github" style="font-size: 1.5rem;"></i>
+      </a>
+      <button type="submit" class="btn btn-outline-danger btn-sm" id="logoutBtn">Logout</button>
+    </div>
+
+  </div>
+</nav>
+
+<div class="container mt-4 pb-5" >
+
+  <!-- Page Heading -->
+  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+    <h3 class="mb-0">My Links</h3>
+    <a href="/main/" class="btn btn-primary mt-2"><strong>Create Link</strong></a>
+  </div>
+
+<!-- Main Content -->
+  <div class="row row-cols-1 row-cols-md-2 g-4 " >
+    {% for entry in data %}
+    <div class="col" id="{{ forloop.counter0 }}">
+      <div class="card shadow-sm h-100" style="background-color: #f8f9fa;">
+        <div class="card-body">
+          <p class="mb-1">
+            <strong>Original URL:</strong><br>
+            
+            <a href="{{ entry.1 }}" target="_blank" class="d-block text-truncate">{{ entry.1 }}</a>
+          </p>
+          <p class="mb-1">
+            <strong>Short URL:</strong><br>
+            <a href="/{{ entry.0 }}" target="_blank" class="text-primary">shortify/{{ entry.0 }}</a>
+          </p>
+          <p class="mb-1"><strong>Created on:</strong> {{ entry.2|date:"Y-m-d H:i" }}</p>
+          <p><strong>Clicks:</strong> {{ entry.3 }}
+         
+        </p>
+        <button class="btn btn-sm btn-danger delete-btn float-end"
+       data-id="{{ forloop.counter0 }}"
+       data-shortcode="{{ entry.0 }}">
+ Delete
+</button>
+
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+<!-- DISPLAY EMPTY MESSAGE IF NO LINKS -->
+  <p id="emptyMsg" class="text-center text-muted d-none mt-4 " style="font-size: 1.2rem;background-color: #f8f9fa;font-weight: bold;font-color: #a7b6c4ff;">You haven't shortened any URLs yet.</p>
+
+</div>
+
+<!-- Bootstrap JS + Logout Script -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+<!--<script>
+
+function updateEmptyMessage() {                                 // FOR DEALING WITH EMPTY MESSAGE
+  const cards = document.querySelectorAll('.col').length;
+  const msg = document.getElementById('emptyMsg');
+
+  if (cards === 0) {
+    msg.classList.remove('d-none');
+  } else {
+    msg.classList.add('d-none');
+  }
+}
+
+  updateEmptyMessage();
+
+  document.querySelectorAll('.delete-btn').forEach(btn => {  // adding event listener to delete buttons
+    btn.addEventListener('click', async function () {
+      const id = this.dataset.id;
+      const shortcode = this.dataset.shortcode;
+      const card = document.getElementById(id);
+
+      const res = await fetch(`/delete/${shortcode}/`, {
+        method: 'DELETE',
+        headers: {
+          'X-CSRFToken': getCSRFToken()
+        }
+      });
+
+      if (res.ok) {
+        card.remove();
+        updateEmptyMessage();
+      } else {
+        alert('Delete failed.');
+      }
+    });
+  });
+
+
+
+  document.getElementById('logoutBtn').addEventListener('click', async function(e) {
+    e.preventDefault();
+    const response = await fetch('/logout/', {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'X-CSRFToken': getCSRFToken()
+      }
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+      window.location.href = '/login/';
+    } else {
+      alert(data.error || 'Logout failed');
+    }
+  });
+
+  function getCSRFToken() {
+    const name = 'csrftoken=';
+    const cookies = document.cookie.split(';');
+    for (let cookie of cookies) {
+      cookie = cookie.trim();
+      if (cookie.startsWith(name)) {
+        return cookie.substring(name.length);
+      }
+    }
+    return '';
+  }
+
+</script>-->
+<script src="{% static 'js/dashboard.js' %}"></script> 
+</body>
+</html>
