@@ -126,7 +126,7 @@ def Gshorten(request):
                 print(obj)
                 break
 
-        short_url = "http://127.0.0.1:8000/" + newshortcode
+        short_url = "https://shortify-hhe2.onrender.com/" + newshortcode
         return JsonResponse({'short_url': short_url})
     return JsonResponse({'error': 'Invalid request'}, status=400)
 
@@ -162,7 +162,7 @@ def shorten(request):
             obj.save()
 
             print(f"Short URL created: {obj.shortcode} → {obj.original_url}")
-            short_url = f"http://127.0.0.1:8000/{shortcode}"  # Replace with your domain in production
+            short_url = f"https://shortify-hhe2.onrender.com/{shortcode}"  # Replace with your domain in production
             return JsonResponse({'short_url': short_url})
 
         except json.JSONDecodeError:
