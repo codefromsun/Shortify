@@ -38,6 +38,8 @@ function updateEmptyMessage() {                                 // FOR DEALING W
 
   document.getElementById('logoutBtn').addEventListener('click', async function(e) {
     e.preventDefault();
+    const btn = document.getElementById('logoutBtn');
+    btn.disabled = true; // disable immediately
     const response = await fetch('/logout/', {
       method: 'POST',
       credentials: 'include',
@@ -51,6 +53,7 @@ function updateEmptyMessage() {                                 // FOR DEALING W
       window.location.href = '/login/';
     } else {
       alert(data.error || 'Logout failed');
+              btn.disabled = false; // re-enable on error
     }
   });
 
