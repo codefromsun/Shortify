@@ -13,7 +13,7 @@
 - 👤 User accounts with link history and analytics
 - 📊 Track click count, creation date
 - 🛠 Guest mode for quick, no-login link shortening
-- 📱 Mobile-friendly and responsive design
+
 
 
 ---
