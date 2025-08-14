@@ -14,7 +14,7 @@
 - 📊 Track click count, creation date
 - 🛠 Guest mode for quick, no-login link shortening
 - 📱 Mobile-friendly and responsive design
-- 📋 One-click copy to clipboard
+
 
 ---
 
